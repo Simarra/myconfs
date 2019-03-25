@@ -110,6 +110,7 @@ source $ZSH/oh-my-zsh.sh
 alias pvr="pipenv run"
 alias pvrp="pipenv run python"
 alias vimn="vim -c NERDTree"
+alias Orange3="python3 -m Orange.canvas"
 # VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # POWERLEVEL9K

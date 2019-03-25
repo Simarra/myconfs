@@ -8,9 +8,11 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 "git interface
 Plugin 'tpope/vim-fugitive'
+"git show modifs
+Plugin 'airblade/vim-gitgutter'
 "filesystem
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
+"Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim' 
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'majutsushi/tagbar'
@@ -21,19 +23,18 @@ Plugin 'jtratner/vim-flavored-markdown'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'nelstrom/vim-markdown-preview'
 "python sytax checker
-Plugin 'nvie/vim-flake8'
-"Plugin 'vim-scripts/Pydiction'
+"Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
 "Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 
 
 "auto-completion stuff
-"Plugin 'klen/python-mode'
+Plugin 'python-mode/python-mode'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'klen/rope-vim'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
+"Plugin 'ervandew/supertab'
 
 "Colors!!!
 Plugin 'altercation/vim-colors-solarized'
@@ -63,10 +64,12 @@ let mapleader=" "
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "
 call togglebg#map("<F5>")
+map <F2> :NERDTreeToggle<CR>
+map <F7> :PymodeLint<CR>
 "colorscheme zenburn
 "set guifont=Monaco:h14
 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+let NERDTreeIgnore=['\.pyc$', '\~$', '__init__.py$', '\.orig$'] "ignore files in NERDTree
 
 "I don't like swap files
 set noswapfile
@@ -74,22 +77,6 @@ set noswapfile
 "turn on numbering
 set nu
 
-"python with virtualenv support
-"py << EOF
-"import os.path
-"import sys
-"import vim
-""if 'VIRTUA_ENV' in os.environ:
-"  project_base_dir = os.environ['VIRTUAL_ENV']
-"  sys.path.insert(0, project_base_dir)
-"  activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
-"  execfile(activate_this, dict(__file__=activate_this))
-"EOF
-
-"it would be nice to set tag files by the active virtualenv here
-":set tags=~/mytags "tags for ctags and taglist
-"omnicomplete
-" autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 "------------Start Python PEP 8 stuff----------------
 " Number of spaces that a pre-existing tab is equal to.
@@ -146,10 +133,39 @@ set laststatus=2
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
 
+
+" Plugin python-mode
+let g:pymode_python = 'python3'
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes,pep8,pylint"
+let g:pymode_lint_config = "$HOME/.pylintrc"
+let g:pymode_options_max_line_length = 79
+let g:pymode_lint_on_write = 1
+let g:pymode_virtualenv = 1
+let g:pymode_rope = 1
+let g:pymode_lint_message = 1
+let g:pymode_lint_cwindow = 0
+let g:pymode_breakpoint = 1
+let g:pymode_motion = 1
+let g:pymode_rope_completion = 1
+let g:pymode_lint_on_fly = 1
+"pymode symbols
+let g:pymode_lint_todo_symbol = ''
+let g:pymode_lint_comment_symbol = ''
+let g:pymode_lint_visual_symbol = '☲'
+let g:pymode_lint_error_symbol = ''
+let g:pymode_lint_info_symbol = '☲'
+let g:pymode_lint_pyflakes_symbol = '☲'
+set wrap
+
 " Disable arrows in normal mode.
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
-colorscheme gruvbox 
+colorscheme gruvbox
+
+" Remap excape key
+inoremap jj <Esc> 
+
 let NERDTreeShowHidden=1
