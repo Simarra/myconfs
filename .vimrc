@@ -60,14 +60,10 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='tomorrow'
 
 "custom keys
-let mapleader=" "
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let mapleader=","
 "
-call togglebg#map("<F5>")
 map <F2> :NERDTreeToggle<CR>
 map <F7> :PymodeLint<CR>
-"colorscheme zenburn
-"set guifont=Monaco:h14
 
 let NERDTreeIgnore=['\.pyc$', '\~$', '__init__.py$', '\.orig$'] "ignore files in NERDTree
 
@@ -115,10 +111,6 @@ autocmd FileType python set autoindent
 set backspace=indent,eol,start
 
 
-"Folding based on indentation:
-" autocmd FileType python set foldmethod=indent
-"use space to open folds
-nnoremap <space> za 
 "----------Stop python PEP 8 stuff--------------
 
 "js stuff"
@@ -132,7 +124,10 @@ set laststatus=2
 
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
+set background=dark
 
+
+let NERDTreeShowHidden=1
 
 " Plugin python-mode
 let g:pymode_python = 'python3'
@@ -168,4 +163,3 @@ colorscheme gruvbox
 " Remap excape key
 inoremap jj <Esc> 
 
-let NERDTreeShowHidden=1
