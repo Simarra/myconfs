@@ -4,6 +4,8 @@
 # Path to your oh-my-zsh installation.
  export ZSH="/home/forcity.local/lmartel/.oh-my-zsh"
 
+# vi mode
+# set -o vi
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -62,6 +64,9 @@
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+
+source $ZSH/oh-my-zsh.sh
+
 plugins=(
   git,
   docker,
@@ -73,11 +78,11 @@ plugins=(
   pep8,
   python,
   tmux,
-  ubuntu
+  ubuntu,
+  poetry
 
 )
 
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -111,6 +116,8 @@ alias pvr="pipenv run"
 alias pvrp="pipenv run python"
 alias vimn="vim -c NERDTree"
 alias Orange3="python3 -m Orange.canvas"
+alias u="cd ~/dev/ulu_data"
+alias DBURL="--dburl postgresql://postgres:postgres@localhost:5432/test_db"
 # VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # POWERLEVEL9K
@@ -120,7 +127,6 @@ POWERLEVEL9K_MODE="awesome-patched"
 if [[ -r /usr/share/powerlevel9k/powerlevel9k.zsh-theme ]]; then
     source /usr/share/powerlevel9k/powerlevel9k.zsh-theme 
 fi
-
 
 # END POWERLEVEL9K
 

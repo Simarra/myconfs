@@ -19,12 +19,10 @@ Plugin 'majutsushi/tagbar'
 "html
 "  isnowfy only compatible with python not python3
 "Plugin 'isnowfy/python-vim-instant-markdown'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'nelstrom/vim-markdown-preview'
-"python sytax checker
-"Plugin 'nvie/vim-flake8'
-Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'jtratner/vim-flavored-markdown'
+"Plugin 'suan/vim-instant-markdown'
+"Plugin 'nelstrom/vim-markdown-preview'
+"Plugin 'vim-scripts/indentpython.vim'
 "Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 
@@ -32,33 +30,31 @@ Plugin 'w0rp/ale'
 "auto-completion stuff
 Plugin 'python-mode/python-mode'
 "Plugin 'Valloric/YouCompleteMe'
-"Plugin 'klen/rope-vim'
 Plugin 'davidhalter/jedi-vim'
-"Plugin 'ervandew/supertab'
-
+Plugin 'ambv/black'
+Plugin 'Rykka/InstantRst'
 "Colors!!!
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
+"Plugin 'altercation/vim-colors-solarized'
+"Plugin 'jnurmine/Zenburn'
 Plugin 'morhetz/gruvbox'
 
 "beautify
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-
 call vundle#end()
 
 filetype plugin indent on    " enables filetype detection
-" let g:SimpylFold_docstring_preview = 1
 
 "autocomplete
 let g:ycm_autoclose_preview_window_after_completion=1
 
 "Airline config
 let g:airline#extensions#tabline#enabled = 1
+autocmd BufDelete * call airline#extensions#tabline#buflist#invalidate()
 let g:airline_powerline_fonts = 1
 let g:airline_theme='tomorrow'
-
+set noshowmode
 "custom keys
 let mapleader=","
 "
@@ -144,6 +140,7 @@ let g:pymode_breakpoint = 1
 let g:pymode_motion = 1
 let g:pymode_rope_completion = 1
 let g:pymode_lint_on_fly = 1
+let g:pymode_breakpoint_cmd='import pudb; pudb.set_trace()  # XXX BREAKPOINT'
 "pymode symbols
 let g:pymode_lint_todo_symbol = ''
 let g:pymode_lint_comment_symbol = ''
@@ -160,6 +157,8 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 colorscheme gruvbox
 
+"enable editables buffers
+set hidden
 " Remap excape key
 inoremap jj <Esc> 
 
