@@ -2,8 +2,10 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
- export ZSH="/home/forcity.local/lmartel/.oh-my-zsh"
-
+export ZSH="/home/forcity.local/lmartel/.oh-my-zsh"
+export TWINE_REPOSITORY_URL=https://devpi.forcity.io/forcity/dev/
+export TWINE_USERNAME=loic.martel@forcity.com
+export TWINE_REPOSITORY=forcity
 # vi mode
 # set -o vi
 # Set name of the theme to load --- if set to "random", it will
@@ -104,6 +106,7 @@ plugins=(
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+export DBURL="postgresql://postgres:postgres@localhost:5432/test_db"
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -116,13 +119,19 @@ alias pvr="pipenv run"
 alias pvrp="pipenv run python"
 alias vimn="vim -c NERDTree"
 alias Orange3="python3 -m Orange.canvas"
-alias u="cd ~/dev/ulu_data"
-alias DBURL="--dburl postgresql://postgres:postgres@localhost:5432/test_db"
+alias u="cd ~/dev/ulu_data && source venv/bin/activate"
 # VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # POWERLEVEL9K
 
 POWERLEVEL9K_MODE="awesome-patched"
+POWERLEVEL9K_PYTHON_ICON='\UE73C '  # 
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(virtualenv)
+
+# Only show a little statu for user. 
+# If need to ssh adapt it. Show all by default:
+# POWERLEVEL9K_CONTEXT_TEMPLATE="%n@`hostname -f`"
+POWERLEVEL9K_CONTEXT_TEMPLATE=""
 
 if [[ -r /usr/share/powerlevel9k/powerlevel9k.zsh-theme ]]; then
     source /usr/share/powerlevel9k/powerlevel9k.zsh-theme 
