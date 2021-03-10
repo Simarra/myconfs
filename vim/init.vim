@@ -39,12 +39,8 @@ Plug 'vim-python/python-syntax'
 
 
 " FZF / Ctrlp for file navigation
-if executable('fzf')
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-else
-  Plug 'ctrlpvim/ctrlp.vim'
-endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 
 call plug#end()
