@@ -125,17 +125,22 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 " Remap excape key
-inoremap jj <Esc> noremap <Right> <Nop>
+inoremap jj <Esc>
 map <F2> :NERDTreeToggle<CR>
 map <F7> :Black<CR>
+nnoremap <silent> <Leader>bu :Buffers<CR>
+nnoremap <silent> <Leader>co :Commands<CR>
+nnoremap <silent> <Leader>fz :FZF<CR>
+nnoremap <silent> <Leader>ta :Tags<CR>
+nnoremap <silent> <Leader>tt :TagbarToggle<CR>
+nnoremap <silent> <Leader>li :Neomake<CR>
 
 " Remap leader key
 let mapleader=","
 
 
-" Edit vimrc
-nnoremap <leader>ev :edit $MYVIMRC<cr>
-nnoremap <leader>evs :source $MYVIMRC<cr>
+set hidden
+set wildmenu
 
 " if using gui frontend
 " GuiPopupmenu 0
