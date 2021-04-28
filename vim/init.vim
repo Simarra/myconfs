@@ -18,10 +18,9 @@ endif
 Plug 'vim-airline/vim-airline' " beautify
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdcommenter'  " Universal commenter
-Plug 'scrooloose/nerdtree'  " Tree explorer
-Plug 'morhetz/gruvbox'  " theming
+Plug 'ryanoasis/vim-devicons'
+Plug 'easymotion/vim-easymotion'
 Plug 'ayu-theme/ayu-vim' " theming
-Plug 'ryanoasis/vim-devicons'  " theming
 Plug 'tpope/vim-fugitive'  " git things
 Plug 'airblade/vim-gitgutter'  " git things
 Plug 'majutsushi/tagbar'  " see class and variables well displayed
@@ -45,11 +44,6 @@ call plug#end()
 let g:airline#extensions#tabline#enabled = 1
 autocmd BufDelete * call airline#extensions#tabline#buflist#invalidate()
 let g:airline_powerline_fonts = 1
-" COLORIZE NERDTREE
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
 
 "collor Theme
 colorscheme ayu
@@ -58,42 +52,19 @@ let ayucolor="mirage"
 set laststatus=2
 
 let g:airline_theme='fruit_punch'
+" let g:airline_theme='light'
 " let g:airline_theme='gruvbox' " <theme> is a valid theme name
 
 
 set termguicolors
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('rst', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('py', 'yellow', 'none', '#F09F17', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('json', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 
 " ==================EDITORS========================
 "I don't like swap files
 set noswapfile
 
 set wrap
-
 "turn on numbering
 set nu
-
-" Wrap text after a certain number of characters
-au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 
 " Use UNIX (\n) line endings.
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
@@ -106,26 +77,22 @@ syntax on
 set title
 set hidden
 
-let g:neomake_python_enabled_makers = ['flake8']  " formater with pylint
 " Remaps
 " Remap leader key
 let mapleader=","
+
+" Arrows keys are for weaks.
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
+
 " Remap excape key
 inoremap jj <Esc>
-map <F2> :NERDTreeToggle<CR>
-map <F7> :Black<CR>
-nnoremap <silent> <Leader>bu :Buffers<CR>
-nnoremap <silent> <Leader>co :Commands<CR>
-nnoremap <silent> <Leader>fz :FZF<CR>
-nnoremap <silent> <Leader>ta :Tags<CR>
+:tnoremap <Esc> <C-\><C-n>
+map <F2> :Lexplore<CR>
+
 nnoremap <silent> <Leader>tt :TagbarToggle<CR>
-nnoremap <silent> <Leader>li :Neomake<CR>
-
-
 
 set hidden
 set wildmenu
@@ -199,6 +166,7 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -238,17 +206,6 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -259,10 +216,6 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
-" Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of language server.
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')

@@ -80,7 +80,6 @@ plugins=(
   pep8,
   python,
   tmux,
-  ubuntu,
   poetry
 
 )
@@ -106,7 +105,7 @@ plugins=(
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export DBURL="postgresql://postgres:postgres@localhost:5432/test_db"
+# export DBURL="postgresql://postgres:postgres@localhost:5432/test_db"
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -115,11 +114,7 @@ export DBURL="postgresql://postgres:postgres@localhost:5432/test_db"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias pvr="pipenv run"
-alias pvrp="pipenv run python"
-alias vimn="vim -c NERDTree"
-alias Orange3="python3 -m Orange.canvas"
-alias u="cd ~/dev/ulu_data && source venv/bin/activate"
+# alias u="cd ~/dev/ulu_data && source venv/bin/activate"
 # VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # POWERLEVEL9K
