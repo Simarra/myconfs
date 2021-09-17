@@ -5,7 +5,37 @@
 { config, pkgs, ... }:
 
 
-{
+
+
+
+let
+  extensions = (with pkgs.vscode-extensions; [
+      bbenoist.Nix
+      ms-python.python
+      ms-azuretools.vscode-docker
+      eamodio.gitlens
+      vscodevim.vim
+    ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    {
+      name = "vscode-language-pack-fr";
+      publisher = "MS-CEINTL";
+      version = "1.60.4";
+      sha256 = "0r6a1v14z5mryrhqwhq9li1xc282x57f75yzbid2z0dnnz3af4yg";
+    }
+    {
+      name = "remote-containers";
+      publisher = "ms-vscode-remote";
+      version = "0.195.0";
+      sha256 = "43c66aa22c6205199c99bbb94ebf9992df2d427524b1fddb3d08f0c163c9332c";
+    }
+  ];
+  vscodium-with-extensions = pkgs.vscode-with-extensions.override {
+    vscode = pkgs.vscodium;
+    vscodeExtensions = extensions;
+  };
+
+
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -87,13 +117,13 @@
     qgis
     git
     libreoffice
+    vscodium-with-extensions
 
     # Db Stuff
     dbeaver
     # kde stuff
-    # latte-dock
+    latte-dock
   ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -124,4 +154,3 @@
   system.stateVersion = "21.05"; # Did you read the comment?
 
 }
-
