@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 
 
@@ -134,7 +134,7 @@ in {
   # };
 
   # List services that you want to enable:
-  systemd.services.fixHpSpecter13Sleep = {
+  systemd.services.fixHpSpecter13Sleep = lib.mkIf (config.networking.hostName == "specternixos"){
      wantedBy = [ "multi-user.target" ]; 
      after = [ "network.target" ];
      description = "HP Specter 13: fix to prevent the system from waking immediately after suspend, this is due to a bug with the power button.";
