@@ -6,8 +6,6 @@
 
 
 
-
-
 let
   extensions = (with pkgs.vscode-extensions; [
       bbenoist.Nix
@@ -39,6 +37,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+#       ./CozyCloud.nix
     ];
 
   # Allow unfree packages
@@ -70,6 +69,8 @@ in {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
+
+
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -133,6 +134,19 @@ in {
   # };
 
   # List services that you want to enable:
+  systemd.services.fixHpSpecter13Sleep = {
+     wantedBy = [ "multi-user.target" ]; 
+     after = [ "network.target" ];
+     description = "HP Specter 13: fix to prevent the system from waking immediately after suspend, this is due to a bug with the power button.";
+     serviceConfig = {
+       Type = "oneshot";
+       # User = "username";
+       # ExecStart = "${pkgs.zsh}/bin/zsh -c '${pkgs.zsh}/bin/echo PWRB > /proc/acpi/wakeup'";         
+       ExecStart = "${pkgs.bash}/bin/bash -c 'echo PWRB > /proc/acpi/wakeup'";
+       # ExecStop = ''${pkgs.screen}/bin/screen -S irc -X quit'';
+       RemainAfterExit = "yes";
+     };
+   };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
