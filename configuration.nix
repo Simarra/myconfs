@@ -31,15 +31,15 @@ let
     vscode = pkgs.vscodium;
     vscodeExtensions = extensions;
   };
+  cozy-drive = pkgs.callPackage cozy-drive/default.nix {};
 
 
 in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-#       ./CozyCloud.nix
+      
     ];
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   # Use the systemd-boot EFI boot loader.
@@ -65,10 +65,10 @@ in {
 
   # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "fr";
+  };
 
 
 
@@ -77,9 +77,12 @@ in {
 
 
   # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
+
+  # Enable GNOME 3
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.layout = "fr";
@@ -108,9 +111,7 @@ in {
     wget
     brave
     zsh
-    steam
     tlp
-    kdeconnect
     spotify
     joplin
     joplin-desktop
@@ -119,12 +120,23 @@ in {
     git
     libreoffice
     vscodium-with-extensions
+    signal-desktop
+    whatsapp-for-linux
+    cozy-drive
 
     # Db Stuff
     dbeaver
     # kde stuff
-    latte-dock
+    # kdeconnect
+    # latte-dock
+    
+    # Gnome stuff
+    gnomeExtensions.gsconnect
+    gnomeExtensions.topiconsfix
+    gnomeExtensions.appindicator
+    gnome.gnome-tweak-tool
   ];
+  programs.steam.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -137,20 +149,17 @@ in {
   systemd.services.fixHpSpecter13Sleep = lib.mkIf (config.networking.hostName == "specternixos"){
      wantedBy = [ "multi-user.target" ]; 
      after = [ "network.target" ];
-     description = "HP Specter 13: fix to prevent the system from waking immediately after suspend, this is due to a bug with the power button.";
+     description = "HP Specter 13: fix";
      serviceConfig = {
        Type = "oneshot";
-       # User = "username";
-       # ExecStart = "${pkgs.zsh}/bin/zsh -c '${pkgs.zsh}/bin/echo PWRB > /proc/acpi/wakeup'";         
        ExecStart = "${pkgs.bash}/bin/bash -c 'echo PWRB > /proc/acpi/wakeup'";
-       # ExecStop = ''${pkgs.screen}/bin/screen -S irc -X quit'';
        RemainAfterExit = "yes";
      };
    };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-  services.tlp.enable = true;
+  # services.tlp.enable = true;
 
   # Open ports in the firewall.
   # Let some ports open for Kde Connect.
