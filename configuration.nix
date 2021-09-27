@@ -13,6 +13,7 @@ let
       ms-azuretools.vscode-docker
       eamodio.gitlens
       vscodevim.vim
+      editorconfig.editorconfig
     ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "vscode-language-pack-fr";
@@ -91,6 +92,10 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable docker
+  # virtualisation.docker.enable = true;
+
+
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -144,6 +149,15 @@ in {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  #
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+    };
+  };
 
   # List services that you want to enable:
   systemd.services.fixHpSpecter13Sleep = lib.mkIf (config.networking.hostName == "specternixos"){
