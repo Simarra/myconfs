@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
-{
+
+let
+  cozy-drive-local = pkgs.callPackage CozyDrive/default.nix {};
+
+in {
   nixpkgs.config.allowUnfree = true;
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -11,54 +15,117 @@
   home.homeDirectory = "/home/simara";
   home.packages = [
     pkgs.htop
-    pkgs.nodejs
+    # pkgs.nodejs
+    pkgs.brave
     pkgs.powerline-fonts
     pkgs.powerline-symbols
+    pkgs.nix-zsh-completions
+    pkgs.zsh-powerlevel9k
+    pkgs.libreoffice
+    pkgs.spotify
+    pkgs.joplin
+    pkgs.joplin-desktop
+    pkgs.postman
+    pkgs.qgis
+    pkgs.dbeaver
+    pkgs.signal-desktop
+    pkgs.whatsapp-for-linux
+    pkgs.gimp
+    # pkgs.cozy-drive
+    pkgs.ihaskell
+    cozy-drive-local
+    # pkgs.scribus
+    # pkgs.haskell-language-server
   ];
+
+  programs.fish.enable = true;
 
   programs.git = {
     enable = true;
     userName = "Simarra";
     userEmail = "loic.martel@protonmail.com";
   };
+
   programs.tmux = {
   enable = true;
   terminal = "tmux-256color";
   shortcut = "u";
   };
 
-  programs.vscode = {
+  programs.firefox = {
     enable = true;
-      package = pkgs.vscode;
-        extensions = (with pkgs.vscode-extensions; [
-        bbenoist.Nix
-        ms-python.python
-        ms-azuretools.vscode-docker
-        eamodio.gitlens
-        vscodevim.vim
-        bbenoist.Nix
-        justusadam.language-haskell
-      ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      {
-        name = "vscode-language-pack-fr";
-        publisher = "MS-CEINTL";
-        version = "1.60.4";
-        sha256 = "0r6a1v14z5mryrhqwhq9li1xc282x57f75yzbid2z0dnnz3af4yg";
-      }
-      {
-        name = "remote-containers";
-        publisher = "ms-vscode-remote";
-        version = "0.195.0";
-        sha256 = "43c66aa22c6205199c99bbb94ebf9992df2d427524b1fddb3d08f0c163c9332c";
-      }
+     profiles.default = {
+        id = 0;
+        settings = {
 
-        ];
-          userSettings = {
-              "terminal.integrated.fontFamily" = "Hack";
-              "editor.cursorBlinking" = "smooth";
-              "vim.easymotion" = true;
-          };
-     };
+          "browser.contentblocking.category" = "strict";
+          "browser.search.defaultenginename" = "Qwant";
+          "browser.search.selectedEngine" = "Qwant";
+          "browser.urlbar.placeholderName" = "Qwant";
+          "browser.search.region" = "FR";
+          "distribution.searchplugins.defaultLocale" = "fr-FR";
+          "general.useragent.locale" = "fr-FR";
+          "browser.bookmarks.showMobileBookmarks" = true;
+          "browser.search.hiddenOneOffs" =
+            "Google,Yahoo,Bing,Amazon.com,Twitter";
+          "privacy.donottrackheader.enabled" = true;
+          "privacy.donottrackheader.value" = 1;
+
+          
+          "extensions.update.enabled" = false;
+
+        };
+      };
+  };
+
+
+  # # HIE overlay
+  # self: super: 
+  # let 
+  #   all-hies = import (fetchTarball "https://github.com/haskell/haskell-language-server/tarball/master") {};
+  # in {
+  #   hies = all-hies.selection { selector = p: { inherit (p) ghc865 ghc844; }; };
+  # }
+
+programs.vscode = {
+  enable = true;
+   # haskell = {
+   #   enable = true;
+   #   hie = {
+   #      enable = true;
+   #      executablePath = "${pkgs.hies}/bin/hie-wrapper";
+   #      };
+   #     };
+  package = pkgs.vscode;
+      extensions = (with pkgs.vscode-extensions; [
+      # ms-python.python
+      # ms-azuretools.vscode-docker
+      # eamodio.gitlens
+      # vscodevim.vim
+      # bbenoist.Nix
+      # justusadam.language-haskell
+      # haskell.haskell
+    ]) ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    {
+      name = "vscode-language-pack-fr";
+      publisher = "MS-CEINTL";
+      version = "1.60.4";
+      sha256 = "0r6a1v14z5mryrhqwhq9li1xc282x57f75yzbid2z0dnnz3af4yg";
+    }
+    {
+      name = "remote-containers";
+      publisher = "ms-vscode-remote";
+      version = "0.195.0";
+      sha256 = "43c66aa22c6205199c99bbb94ebf9992df2d427524b1fddb3d08f0c163c9332c";
+    }
+
+      ];
+        userSettings = {
+            "terminal.integrated.fontFamily" = "Hack";
+            "editor.cursorBlinking" = "smooth";
+            "vim.easymotion" = true;
+        };
+   };
   programs = {
      neovim = {
        enable =true;
@@ -66,24 +133,14 @@
        viAlias=true;
        withPython3 = true;
        plugins = with pkgs.vimPlugins; [
-         # coc-nvim
-         # coc-python
 	 fugitive
 	 gitgutter
 	 vim-nix
          ayu-vim
          vim-airline
          vim-airline-themes
+         haskell-vim
        ];
-       extraPackages = with pkgs; [
-         (python3.withPackages (ps: with ps; [
-           black
-           flake8
-         ]))
-       ];
-       extraPython3Packages = (ps: with ps; [
-         jedi
-       ]);
        extraConfig = ''
          let g:airline#extensions#tabline#enabled = 1
          set laststatus=2
@@ -95,8 +152,6 @@
          let ayucolor="mirage"
          set termguicolors
 
-         set noswapfile
-         
          set wrap
 
          set nu
@@ -120,6 +175,7 @@
          '';
      };
    };
+
   # xdg.configFile."nvim/coc-settings.json".text = builtins.readFile ./coc-settings.json;
 
   # This value determines the Home Manager release that your
@@ -130,5 +186,5 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.05";
+  home.stateVersion = "21.11";
 }
